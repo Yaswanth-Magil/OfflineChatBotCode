@@ -1,0 +1,178 @@
+{
+    "intents": [
+      {
+        "intent": "ShowMenu",
+        "examples": [
+          "Can I see the dinner menu?",
+          "Show me the breakfast options.",
+          "What's available for lunch?",
+          "I'd like to see the dessert menu.",
+          "What drinks are on the menu?",
+          "Do you have any appetizers?"
+        ]
+      },
+      {
+        "intent": "PlaceOrder",
+        "examples": [
+          "I would like to order a pizza.",
+          "Can I get a salad?",
+          "I'd like to order two burgers.",
+          "I want to place an order for room service.",
+          "Can I order a bottle of wine?",
+          "Please send a steak to my room."
+        ]
+      },
+      {
+        "intent": "CancelOrder",
+        "examples": [
+          "I need to cancel my order.",
+          "Please cancel the order for pasta.",
+          "Can you cancel my dessert order?",
+          "I want to cancel my drink order.",
+          "I'd like to stop my room service request."
+        ]
+      },
+      {
+        "intent": "ModifyOrder",
+        "examples": [
+          "Can I change my order?",
+          "I want to add a side of fries to my order.",
+          "I'd like to modify my order to include a drink.",
+          "Can you remove the dessert from my order?",
+          "I need to update my order."
+        ]
+      },
+      {
+        "intent": "SpecialRequests",
+        "examples": [
+          "Can I get extra cheese on the pizza?",
+          "Can you make the pasta gluten-free?",
+          "Please make the burger without onions.",
+          "I'd like my steak cooked medium rare.",
+          "Can I have extra sauce on the side?",
+          "Can I substitute fries for a salad?"
+        ]
+      },
+      {
+        "intent": "DietaryInquiry",
+        "examples": [
+          "Do you have any vegan options?",
+          "Are there gluten-free dishes available?",
+          "Can I get a dairy-free dessert?",
+          "Do you offer vegetarian meals?",
+          "Is there a low-sodium menu?",
+          "Are any dishes peanut-free?"
+        ]
+      },
+      {
+        "intent": "MenuItemDetails",
+        "examples": [
+          "What ingredients are in the Caesar salad?",
+          "How spicy is the curry?",
+          "What type of bread is used for the sandwich?",
+          "Is the soup made with chicken stock?",
+          "Can you tell me more about the fish dish?",
+          "What kind of cheese is on the burger?"
+        ]
+      },
+      {
+        "intent": "PortionSizeInquiry",
+        "examples": [
+          "How big is the steak?",
+          "What's the portion size of the pasta?",
+          "How many slices come with the pizza?",
+          "Is the salad large enough for two people?",
+          "How big is a serving of the fries?",
+          "What’s the size of the dessert?"
+        ]
+      },
+      {
+        "intent": "AvailableItemsInquiry",
+        "examples": [
+          "Do you have any chicken dishes?",
+          "Is the lasagna available right now?",
+          "What desserts do you have today?",
+          "Is the salmon on the menu?",
+          "Can I order sushi?",
+          "Do you have lobster on the menu?"
+        ]
+      },
+      {
+        "intent": "BeverageMenuInquiry",
+        "examples": [
+          "Can I see the wine list?",
+          "What cocktails do you have?",
+          "Do you have any non-alcoholic drinks?",
+          "What soft drinks are available?",
+          "Can I get a glass of red wine?",
+          "Do you serve coffee?"
+        ]
+      },
+      {
+        "intent": "CustomizeOrder",
+        "examples": [
+          "Can I get the pasta with extra sauce?",
+          "Please make the pizza with thin crust.",
+          "Can I get my salad with dressing on the side?",
+          "Can I have my burger with a different cheese?",
+          "I'd like extra toppings on the sundae.",
+          "Please remove the bacon from the sandwich."
+        ]
+      },
+      {
+        "intent": "UnavailableItemsInquiry",
+        "examples": [
+          "Is the chicken curry out of stock?",
+          "Do you have any dishes that are currently unavailable?",
+          "Is the chocolate cake available?",
+          "Are you out of salmon?",
+          "What items are not available today?",
+          "Can I order sushi, or is it sold out?"
+        ]
+      },
+      {
+        "intent": "AllergenInquiry",
+        "examples": [
+          "Is the pizza peanut-free?",
+          "Does the salad contain nuts?",
+          "Are there any dairy products in the soup?",
+          "Is the bread gluten-free?",
+          "Does the dessert contain eggs?",
+          "Can you confirm if the dish is shellfish-free?"
+        ]
+      },
+      {
+        "intent": "WaitTimeInquiry",
+        "examples": [
+          "How long will my food take?",
+          "What is the estimated wait time for my order?",
+          "When will my food be ready?",
+          "Can you tell me how long the kitchen will take?",
+          "How long for the room service order?",
+          "How much time until my drink is served?"
+        ]
+      },
+      {
+        "intent": "PricingInquiry",
+        "examples": [
+          "How much is the steak?",
+          "What’s the price of the pizza?",
+          "Can you tell me the cost of the dessert?",
+          "What is the price for a glass of wine?",
+          "How much does the breakfast cost?",
+          "Is there an additional charge for extra toppings?"
+        ]
+      },
+      {
+        "intent": "FoodRecommendation",
+        "examples": [
+          "What would you recommend for dinner?",
+          "Can you suggest a dish with seafood?",
+          "What's the chef's special today?",
+          "Can you recommend something vegetarian?",
+          "What’s a popular dish on the menu?",
+          "What's a good dessert option?"
+        ]
+      }
+    ]
+}
