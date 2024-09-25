@@ -1,0 +1,184 @@
+{
+    "intents": [
+        {
+            "intent": "GetSpicyDishesForFever",
+            "text": [
+                "Can you tell me about the spicy dishes?",
+                "Any spicy dishes recommendation?",
+                "Spicy dishes?"
+            ],
+            "responses": [
+                "Here are some spicy dishes suitable for fever: [list of spicy dish names].",
+                "Here are some spicy dishes: [list of spicy dish names]."
+            ],
+            "context": {
+                "in": "",
+                "out": "SpicyDishesList",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "spicy_dishes = []\nfor item in menu_data:\n    description = item.get('description', '')\n    if 'spicy' in description.lower():\n        spicy_dishes.append(item)\nreturn spicy_dishes"
+        },
+        {
+            "intent": "GetKidsFriendlyDishes",
+            "text": [
+                "Which dishes are kids-friendly?",
+                "Which dishes are kids friendly?",
+                "Kids friendly dishes recommendation?"
+            ],
+            "responses": [
+                "Here are some kids-friendly dishes: [list of kids-friendly dish names]."
+            ],
+            "context": {
+                "in": "",
+                "out": "KidsFriendlyDishesList",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "kids_friendly_dishes = [item for item in menu_data if item.get('kidsFriendly') == True]\nreturn kids_friendly_dishes"
+        },
+        {
+            "intent": "GetVeganDishes",
+            "text": [
+                "What are the vegan options?",
+                "Vegan options recommendation?"
+            ],
+            "responses": [
+                "Here are some vegan dishes: [list of vegan dish names]."
+            ],
+            "context": {
+                "in": "",
+                "out": "VeganDishesList",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "vegan_dishes = []\nfor item in menu_data:\n    item_filters = item.get('itemFilter', [])\n    is_vegan = any(filter_item.get('name', '').lower() == 'vegan' for filter_item in item_filters)\n    if is_vegan:\n        vegan_dishes.append(item)\nreturn vegan_dishes"
+        },
+        {
+            "intent": "GetNutFreeDishes",
+            "text": [
+                "List the nut-free dishes."
+            ],
+            "responses": [
+                "Here are some nut-free dishes: [list of nut-free dish names]."
+            ],
+            "context": {
+                "in": "",
+                "out": "NutFreeDishesList",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "nut_free_dishes = []\nfor item in menu_data:\n    item_info = f\"{item.get('description', '')} {item.get('allergicInfo', '')} {item.get('itemName', '')}\".lower()\n    if 'nuts' not in item_info:\n        nut_free_dishes.append(item)\nreturn nut_free_dishes"
+        },
+        {
+            "intent": "GetFishFreeDishes",
+            "text": [
+                "List the fish-free dishes."
+            ],
+            "responses": [
+                "Here are some fish-free dishes: [list of fish-free dish names]."
+            ],
+            "context": {
+                "in": "",
+                "out": "FishFreeDishesList",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "fish_free_dishes = []\nfor item in menu_data:\n    item_info = f\"{item.get('description', '')} {item.get('allergicInfo', '')} {item.get('itemName', '')}\".lower()\n    if 'fish' not in item_info:\n        fish_free_dishes.append(item)\nreturn fish_free_dishes"
+        },
+        {
+            "intent": "FindDishWithLeastPrepTime",
+            "text": [
+                "Find the dish with the least prep time.",
+                "Find the dish with the least prep time for appetizers.",
+                "Find the dish with the least prep time for A2B combos."
+            ],
+            "responses": [
+                "The dish with the least prep time is [dish name] with a prep time of [prep time] minutes."
+            ],
+            "context": {
+                "in": "",
+                "out": "LeastPrepTimeDish",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": [],
+            "query": "filtered_items = [item for item in menu_data if item.get('subCategory', '').lower() == subcategory.lower()]\nif filtered_items:\n    min_item = min(filtered_items, key=lambda x: int(x.get('prepTimeInMins', 0)))\n    return min_item\nreturn None"
+        },
+        {
+            "intent": "RetrieveDishDescription",
+            "text": [
+                "What is the description of the [dish name]?",
+                "What is the description of [dish name]?"
+            ],
+            "responses": [
+                "[dish name] is described as: [description]."
+            ],
+            "context": {
+                "in": "",
+                "out": "DishDescription",
+                "clear": false
+            },
+            "entityType": "DishName",
+            "entities": [
+                {
+                    "entity": "DishName",
+                    "rangeFrom": 5,
+                    "rangeTo": 6
+                }
+            ],
+            "query": "for item in menu_data:\n    if item.get('itemName', '').lower() == dish_name.lower():\n        return item\nreturn None"
+        },
+        {
+            "intent": "RetrieveDishAllergicInfo",
+            "text": [
+                "What is the allergic info for [dish name]?"
+            ],
+            "responses": [
+                "[dish name] is described as: [allergicInfo]."
+            ],
+            "context": {
+                "in": "",
+                "out": "DishAllergicInfo",
+                "clear": false
+            },
+            "entityType": "DishName",
+            "entities": [
+                {
+                    "entity": "DishName",
+                    "rangeFrom": 5,
+                    "rangeTo": 6
+                }
+            ],
+            "query": "for item in menu_data:\n    if item.get('itemName', '').lower() == dish_name.lower():\n        return item\nreturn None"
+        },
+        {
+            "intent": "RetrieveDishPrice",
+            "text": [
+                "How much does the [dish name] cost?"
+            ],
+            "responses": [
+                "The price of [dish name] is $[price]."
+            ],
+            "context": {
+                "in": "",
+                "out": "DishPrice",
+                "clear": false
+            },
+            "entityType": "DishName",
+            "entities": [
+                {
+                    "entity": "DishName",
+                    "rangeFrom": 5,
+                    "rangeTo": 6
+                }
+            ],
+            "query": "for item in menu_data:\n    if item.get('itemName', '').lower() == dish_name.lower():\n        return item\nreturn None"
+        }
+    ]
+}

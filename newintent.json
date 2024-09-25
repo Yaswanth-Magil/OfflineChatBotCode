@@ -1,0 +1,188 @@
+
+    {
+      "question": "What are your South Indian favorites?",
+      "intent": "get_south_indian_favorites",
+      "context-retrieval": """
+  south_indian_favorites = [item for item in menu_data if item.get('subCategory', '').lower() == 'south indian favorites']
+  return south_indian_favorites
+  """,
+      "response": "Here are some South Indian favorites: [list of South Indian favorite dish names]."
+    },
+    {
+      "question": "Do you have any vegan options?",
+      "intent": "get_vegan_dishes",
+      "context-retrieval": """
+  vegan_dishes = [item for item in menu_data if any(f.get('name', '').lower() == 'vegan' for f in item.get('itemFilter', []))]
+  return vegan_dishes
+  """,
+      "response": "Here are some vegan options: [list of vegan dish names]."
+    },
+    {
+      "question": "Can you list nut-free dishes?",
+      "intent": "get_nut_free_dishes",
+      "context-retrieval": """
+  nut_free_dishes = [item for item in menu_data if 'nuts' not in f"{item.get('description', '')} {item.get('allergicInfo', '')}".lower()]
+  return nut_free_dishes
+  """,
+      "response": "Here are some nut-free dishes: [list of nut-free dish names]."
+    },
+    {
+      "question": "What are the kids-friendly dishes?",
+      "intent": "get_kids_friendly_dishes",
+      "context-retrieval": """
+  kids_friendly_dishes = [item for item in menu_data if item.get('kidsFriendly')]
+  return kids_friendly_dishes
+  """,
+      "response": "Here are some kids-friendly dishes: [list of kids-friendly dish names]."
+    },
+    {
+      "question": "What is the description of Rava Kichadi?",
+      "intent": "retrieve_description_rava_kichadi",
+      "context-retrieval": """
+  rava_kichadi = next((item for item in menu_data if item['itemName'].lower() == 'rava kichadi'), None)
+  return rava_kichadi['description'] if rava_kichadi else 'No description available.'
+  """,
+      "response": "Rava Kichadi is described as: [description]."
+    },
+
+    {
+        "question": "What is the description of Rava Kichadi?",
+        "intent": "retrieve_document",
+        "context-retrieval": """
+for item in menu_data:
+    if item['itemName'].lower() == 'rava kichadi':
+        return item['description']
+""",
+        "response": "Rava Kichadi is described as: A healthy breakfast option made with semolina and vegetables lightly tempered with spices cooked to perfection."
+    },
+    {
+        "question": "Do you have any South Indian favorites?",
+        "intent": "get_south_indian_favorites",
+        "context-retrieval": """
+south_indian_favorites = [item for item in menu_data if item.get('subCategory', '').lower() == 'south indian favorites']
+return south_indian_favorites
+""",
+        "response": "Here are some South Indian favorites: [list of South Indian favorite dish names]."
+    },
+    {
+        "question": "Can you list nut-free dishes?",
+        "intent": "get_nut_free_dishes",
+        "context-retrieval": """
+nut_free_dishes = [item for item in menu_data if 'nuts' not in f"{item.get('description', '')} {item.get('allergicInfo', '')}".lower()]
+return nut_free_dishes
+""",
+        "response": "Here are some nut-free dishes: [list of nut-free dish names]."
+    },
+    {
+        "question": "What are the appetizers available?",
+        "intent": "get_appetizers",
+        "context-retrieval": """
+appetizers = [item for item in menu_data if item.get('subCategory', '').lower() == 'appetizers']
+return appetizers
+""",
+        "response": "Here are the appetizers: [list of appetizer dish names]."
+    },
+    {
+        "question": "What is the description of Mushroom Pepper Fries?",
+        "intent": "retrieve_document",
+        "context-retrieval": """
+for item in menu_data:
+    if item['itemName'].lower() == 'mushroom pepper fries':
+        return item['description']
+""",
+        "response": "Mushroom Pepper Fries is described as: Indo-Chinese creation with choice of options stir-fried with pepper, capsicum, onion, and tantalizing Chinese sauces."
+    },
+    {
+        "question": "Are there any kids-friendly dishes?",
+        "intent": "get_kids_friendly_dishes",
+        "context-retrieval": """
+kids_friendly_dishes = [item for item in menu_data if item.get('kidsFriendly') == True]
+return kids_friendly_dishes
+""",
+        "response": "Here are the kids-friendly dishes: [list of kids-friendly dish names]."
+    },
+    {
+        "question": "Can you show me the vegan options?",
+        "intent": "get_vegan_dishes",
+        "context-retrieval": """
+vegan_dishes = [item for item in menu_data if any(f.get('name', '').lower() == 'vegan' for f in item.get('itemFilter', []))]
+return vegan_dishes
+""",
+        "response": "Here are the vegan options: [list of vegan dish names]."
+    },
+    {
+        "question": "What are your spicy dishes?",
+        "intent": "get_spicy_dishes",
+        "context-retrieval": """
+spicy_dishes = [item for item in menu_data if 'spicy' in item.get('description', '').lower()]
+return spicy_dishes
+""",
+        "response": "Here are the spicy dishes: [list of spicy dish names]."
+    },
+    {
+        "question": "What is the prep time for Pongal Vadai?",
+        "intent": "retrieve_prep_time",
+        "context-retrieval": """
+for item in menu_data:
+    if item['itemName'].lower() == 'pongal vadai':
+        return item['prepTimeInMins']
+""",
+        "response": "The prep time for Pongal Vadai is 15 minutes."
+    },
+    {
+        "question": "Can you recommend any South Indian curries?",
+        "intent": "get_south_indian_curries",
+        "context-retrieval": """
+south_indian_curries = [item for item in menu_data if item.get('subCategory', '').lower() == 'south indian curries']
+return south_indian_curries
+""",
+        "response": "Here are the South Indian curries: [list of South Indian curry names]."
+    },
+    {
+        "question": "Are there any gluten-free dishes?",
+        "intent": "get_gluten_free_dishes",
+        "context-retrieval": """
+gluten_free_dishes = [item for item in menu_data if any(f.get('name', '').lower() == 'gluten free' for f in item.get('itemFilter', []))]
+return gluten_free_dishes
+""",
+        "response": "Here are the gluten-free dishes: [list of gluten-free dish names]."
+    },
+    {
+        "question": "What are the healthy options available?",
+        "intent": "get_healthy_dishes",
+        "context-retrieval": """
+healthy_dishes = [item for item in menu_data if item.get('isHealthy') == True]
+return healthy_dishes
+""",
+        "response": "Here are the healthy options: [list of healthy dish names]."
+    },
+    {
+        "question": "Do you have any beverages?",
+        "intent": "get_beverages",
+        "context-retrieval": """
+beverages = [item for item in menu_data if item.get('subCategory', '').lower() == 'beverages']
+return beverages
+""",
+        "response": "Here are the beverages: [list of beverage names]."
+    },
+    {
+        "question": "What is the description of Jeeragasamba Ghee rice with Gutti Vankaya?",
+        "intent": "retrieve_document",
+        "context-retrieval": """
+for item in menu_data:
+    if item['itemName'].lower() == 'jeeragasamba ghee rice with gutti vankaya':
+        return item['description']
+""",
+        "response": "Jeeragasamba Ghee rice with Gutti Vankaya is described as: Seegarasamba ghee rice with Gutti Vankaya koora (eggplant curry) served with Raitha."
+    },
+    {
+        "question": "Can you list items with Jain preparation?",
+        "intent": "get_jain_dishes",
+        "context-retrieval": """
+jain_dishes = [item for item in menu_data if any(f.get('optionName', '').lower() == 'jain' for f in item.get('customization', []))]
+return jain_dishes
+""",
+        "response": "Here are the dishes with Jain preparation: [list of Jain dish names]."
+    }
+
+  
