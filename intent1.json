@@ -5,7 +5,14 @@
             "text": [
                 "Can you tell me about the spicy dishes?",
                 "Any spicy dishes recommendation?",
-                "Spicy dishes?"
+                "Spicy dishes?",
+                "spicy dishes?",
+                "spicy dishes",
+                "What are all the spicy dishes available here?",
+                "Recommend some spicy dishes",
+                "Spicy dishes recommendation",
+                "spicy dishes recommendation",
+                "I want some spicy dishes"
             ],
             "responses": [
                 "Here are some spicy dishes suitable for fever: [list of spicy dish names].",
@@ -25,7 +32,17 @@
             "text": [
                 "Which dishes are kids-friendly?",
                 "Which dishes are kids friendly?",
-                "Kids friendly dishes recommendation?"
+                "Kids friendly dishes recommendation?",
+                "What are all the kid-frienly dishes on the menu?",
+                "Kid friendly dishes",
+                "kid friendly dishes",
+                "Which are all the dishes would you recommend for my kid?",
+                "What dish would you recommend for my child?",
+                "Kid friendly dishes recommendation",
+                "Child friendly dishes recommendation",
+                "Dishes for children",
+                "Dishes for kids",
+                "Do you have menu for kids?"
             ],
             "responses": [
                 "Here are some kids-friendly dishes: [list of kids-friendly dish names]."
@@ -43,7 +60,13 @@
             "intent": "GetVeganDishes",
             "text": [
                 "What are the vegan options?",
-                "Vegan options recommendation?"
+                "Vegan options recommendation?",
+                "Does this [dish name] contain any diary products?",
+                "Show me vegan options for [dish name]?",
+                "Any vegan alternatives for [dish name]",
+                "Vegan alternatives for [dish name]",
+                "Vegan option for [dish name]",
+                "Does [dish name] contains milk or yogurt or ghee or butter or cream or cheese or curd"
             ],
             "responses": [
                 "Here are some vegan dishes: [list of vegan dish names]."
@@ -60,7 +83,13 @@
         {
             "intent": "GetNutFreeDishes",
             "text": [
-                "List the nut-free dishes."
+                "List out the nut-free dishes.",
+                "What are all the nut free dishes",
+                "List out the nut free dishes",
+                "List dishes which does not contains nuts",
+                "I want nut free dishes",
+                "I don't want any dish with nuts",
+                "Give me dishes with no nuts in it"
             ],
             "responses": [
                 "Here are some nut-free dishes: [list of nut-free dish names]."
@@ -77,7 +106,14 @@
         {
             "intent": "GetFishFreeDishes",
             "text": [
-                "List the fish-free dishes."
+                "List out the fish-free dishes.",
+                "What are all the fish free dishes",
+                "List out the fish free dishes",
+                "List dishes which does not contains fishes",
+                "I want fish free dishes",
+                "I don't want any dish with fishes",
+                "Give me dishes with no fishes in it",
+                "Fish free dishes?"               
             ],
             "responses": [
                 "Here are some fish-free dishes: [list of fish-free dish names]."
@@ -96,7 +132,15 @@
             "text": [
                 "Find the dish with the least prep time.",
                 "Find the dish with the least prep time for appetizers.",
-                "Find the dish with the least prep time for A2B combos."
+                "Find the dish with the least prep time for A2B combos.",
+                "Dishes with least preperation time?",
+                "Dishes with least prep time?",
+                "What are all the dishes which are quickly served?",
+                "Quickly served dishes?",
+                "Dishes with less preparation time",
+                "Dishes whichh will be available with in minutes?",
+                "5 minute dishes?",
+                "dishes which does not take much time to get served"
             ],
             "responses": [
                 "The dish with the least prep time is [dish name] with a prep time of [prep time] minutes."
@@ -114,7 +158,13 @@
             "intent": "RetrieveDishDescription",
             "text": [
                 "What is the description of the [dish name]?",
-                "What is the description of [dish name]?"
+                "What is the description of [dish name]?",
+                "tell me about [dish name]",
+                "[dish name]",
+                "[dish name] info",
+                "[dish name] information",
+                "[dish name] description",
+                "[dish name]'s cooking process"
             ],
             "responses": [
                 "[dish name] is described as: [description]."
@@ -137,7 +187,13 @@
         {
             "intent": "RetrieveDishAllergicInfo",
             "text": [
-                "What is the allergic info for [dish name]?"
+                "What is the allergic info for [dish name]?",
+                "Does [dish name] contain fish?",
+                "Does [dish name] contain any nuts?",
+                "allergic info of [dish name]",
+                "Allergic information of [dish name]",
+                "Allegran info of [dish name]",
+                "Allergic information"
             ],
             "responses": [
                 "[dish name] is described as: [allergicInfo]."
@@ -160,7 +216,15 @@
         {
             "intent": "RetrieveDishPrice",
             "text": [
-                "How much does the [dish name] cost?"
+                "How much does the [dish name] cost?",
+                "What's the cost of [dish name]",
+                "[dish name] costs?",
+                "[dish name] price?",
+                "What is the price of [dish name]",
+                "What is the cost of [dish name]",
+                "How much will [dish name] cost",
+                "is [dish name] expensive?",
+                "is [dish name] cheap?"
             ],
             "responses": [
                 "The price of [dish name] is $[price]."
