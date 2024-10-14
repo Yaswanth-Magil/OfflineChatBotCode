@@ -80,20 +80,17 @@ model.fit(padded_sequences, categorical_vec, epochs=100, verbose=1)
 def predict_intent(sentence):
     tokens = [tokenizer.word_index.get(word, tokenizer.word_index['<unk>']) for word in sentence.split()]
     sent_tokens = pad_sequences([tokens], padding='pre', maxlen=padded_sequences.shape[1])  # Shape: (1, sequence_length)
-    
-    # No need to use np.expand_dims, as pad_sequences already returns the correct shape
-    sent_tokens = np.array(sent_tokens)  # Shape: (1, sequence_length)
-    
+
     # Predict intent
     pred = model.predict(sent_tokens)  # Model expects shape (1, sequence_length)
     pred_class = np.argmax(pred, axis=1)[0]
-    
+
     return index_to_intent[pred_class]
 
 def extract_dish_name(query):
     query = query.lower()
     best_match = process.extractOne(query, dish_names)
-    if best_match[1] > 85:  # You can set a threshold for matching score
+    if best_match[1] > 85:  # Set a threshold for matching score
         return best_match[0]
     return None
 
@@ -106,7 +103,7 @@ def retrieve_document(query):
     tokenized_query = dish_name.split()
     doc_scores = bm25.get_scores(tokenized_query)
     top_doc_index = np.argmax(doc_scores)
-    
+
     return menu_data[top_doc_index] if doc_scores[top_doc_index] > 0 else None
 
 # Functions to retrieve specific data from the menu
@@ -132,10 +129,6 @@ def get_kids_friendly_dishes():
     return [item for item in menu_data if item.get('kidsFriendly')]
 
 def get_spicy_dishes_for_fever():
-    """
-    Returns a list of spicy dishes suitable for fever.
-    A dish is considered spicy if 'spicy' appears in its 'description' or 'itemFilter'.
-    """
     spicy_keyword = 'spicy'
     spicy_dishes = []
     for index, item in enumerate(menu_data):
@@ -143,13 +136,11 @@ def get_spicy_dishes_for_fever():
             print(f"Warning: Item at index {index} is not a dictionary. Skipping.")
             continue
 
-        # Safely retrieve and process 'description'
         description = item.get('description', '')
         if not isinstance(description, str):
             description = str(description) if description is not None else ''
         description = description.lower()
 
-        # Safely retrieve and process 'itemFilter'
         item_filters = item.get('itemFilter', [])
         if not isinstance(item_filters, list):
             item_filters = []
@@ -160,70 +151,69 @@ def get_spicy_dishes_for_fever():
             if len(spicy_dishes) >= 5:
                 break  # Limit to 5 dishes
 
-    return spicy_dishes  # Already limited to 5 dishes
+    return spicy_dishes
 
 def get_vegan_dishes():
     return [item for item in menu_data if any(f.get('name', '').lower() == 'vegan' for f in item.get('itemFilter', []))]
 
 def get_nut_free_dishes():
-    """
-    Returns a list of dishes that are nut-free.
-    A dish is considered nut-free if 'nut' does not appear in its 'allergicInfo' or 'description'.
-    """
     nut_keywords = ['nut', 'nuts', 'peanut', 'almond', 'walnut', 'cashew', 'hazelnut']
-
     nut_free_dishes = []
     for index, item in enumerate(menu_data):
         if not isinstance(item, dict):
             print(f"Warning: Item at index {index} is not a dictionary. Skipping.")
-            continue  # Skip items that are not dictionaries
+            continue
 
-        # Safely retrieve and process 'allergicInfo'
         allergic_info = item.get('allergicInfo', '')
         if not isinstance(allergic_info, str):
             allergic_info = str(allergic_info) if allergic_info is not None else ''
         allergic_info = allergic_info.lower()
 
-        # Safely retrieve and process 'description'
         description = item.get('description', '')
         if not isinstance(description, str):
             description = str(description) if description is not None else ''
         description = description.lower()
 
-        # Check if any nut-related keyword is present
         if not any(nut in allergic_info for nut in nut_keywords) and not any(nut in description for nut in nut_keywords):
             nut_free_dishes.append(item)
             if len(nut_free_dishes) >= 5:
                 break  # Limit to 5 dishes
 
-    return nut_free_dishes  # Already limited to 5 dishes
+    return nut_free_dishes
 
 def get_fish_free_dishes():
-    return [item for item in menu_data if 'fish' not in item.get('allergicInfo', '').lower()]
+    fish_free_dishes = [item for item in menu_data if 'fish' not in item.get('allergicInfo', '').lower()]
 
-# def find_dish_with_least_prep_time():
-#     sorted_dishes = sorted(menu_data, key=lambda x: x.get('prepTime', float('inf')))
-#     return sorted_dishes[:10]  # Return only the top 10 items with the least prep time
+    for index, item in enumerate(menu_data):
+        if len(fish_free_dishes) >= 5:
+            break
+    
+    return fish_free_dishes
+
+
+
 
 def find_dish_with_least_prep_time():
-    # Sort the dishes by prep time and limit to top 10
     sorted_dishes = sorted(menu_data, key=lambda x: x.get('prepTime', float('inf')))
-    
-    # Limit the result to 10 items
-    top_10_dishes = sorted_dishes[:10]
-    
-    # Print the names of the top 10 dishes with the least prep time
-    for dish in top_10_dishes:
-        print(dish.get('itemName', 'Unknown dish'))
+    return sorted_dishes[:10]  # Return only the top 10 items with the least prep time
 
-    return top_10_dishes 
+def find_recommended_items(item, menu):
+    category = item.get('category', '')
+    recommendations = [menu_item for menu_item in menu if menu_item.get('category') == category and menu_item['itemName'] != item['itemName']]
+    return recommendations[:3]  # Recommend up to 3 items
 
+def recommend_dishes_for_pairing(dish_name):
+    item = retrieve_document(dish_name)
+    if item:
+        return find_recommended_items(item, menu_data)
+    return []
 
 def rag_operation(intent, query):
     response_template = response_for_intent.get(intent, "I'm not sure how to respond.")
     dishes = ""
+    dish_name = ""
+    recommended_dishes = ""
 
-    # Define a function mapping
     intent_functions = {
         "GetKidsFriendlyDishes": get_kids_friendly_dishes,
         "GetSpicyDishesForFever": get_spicy_dishes_for_fever,
@@ -231,64 +221,74 @@ def rag_operation(intent, query):
         "GetNutFreeDishes": get_nut_free_dishes,
         "GetFishFreeDishes": get_fish_free_dishes,
         "FindDishWithLeastPrepTime": find_dish_with_least_prep_time,
-        "RetrieveDishDescription": retrieve_dish_description,
-        "RetrieveDishAllergicInfo": retrieve_dish_allergic_info,
-        "RetrieveDishPrice": retrieve_dish_price
     }
 
     if intent in intent_functions:
-        if intent in ["RetrieveDishDescription", "RetrieveDishAllergicInfo", "RetrieveDishPrice"]:
-            item_name, result = intent_functions[intent](query)
-            if item_name:
-                if intent == "RetrieveDishPrice":
-                    dishes = response_template.format(dish_name=item_name, price=result)
-                elif intent == "RetrieveDishAllergicInfo":
-                    dishes = response_template.format(dish_name=item_name, allergic_info=result)
-                else:  # RetrieveDishDescription
-                    dishes = response_template.format(dish_name=item_name, description=result)
-            else:
-                dishes = "Information not available."
-        else:
-            # For list-based responses, limit the result to 5 dishes
-            dishes_list = intent_functions[intent]()
-            if dishes_list:
-                dishes = ', '.join([item['itemName'] for item in dishes_list[:5]]) or "No dishes available."
-                dishes = response_template.format(dishes=dishes)
-            else:
-                dishes = "No dishes available."
+        items = intent_functions[intent]()
+        dishes = ', '.join([item['itemName'] for item in items]) if items else "No dishes found."
+    elif intent == "RecommendDishesForPairing":
+        # Fetch dish name from query and recommendations
+        dish_name = extract_dish_name(query)
+        recommendations = recommend_dishes_for_pairing(dish_name)
+        
+        # Format the recommended dishes
+        recommended_dishes = ', '.join([rec['itemName'] for rec in recommendations]) if recommendations else "No recommendations found."
     else:
-        dishes = "I'm not sure how to respond to that."
+        if intent in ["RetrieveDishDescription", "RetrieveDishAllergicInfo", "RetrieveDishPrice"]:
+            item_name, result = None, None
+            if intent == "RetrieveDishDescription":
+                item_name, result = retrieve_dish_description(query)
+            elif intent == "RetrieveDishAllergicInfo":
+                item_name, result = retrieve_dish_allergic_info(query)
+            elif intent == "RetrieveDishPrice":
+                item_name, result = retrieve_dish_price(query)
 
-    return dishes
-# Response construction: links intent, query, and RAG operation
-def response(sentence):
-    # Step 1: Predict intent
-    intent_name = predict_intent(sentence)
-    
-    # Step 2: Perform RAG (Retrieve Augment Generate) operation
-    rag_output = rag_operation(intent_name, sentence)
+            if item_name and result:
+                if intent == "RetrieveDishDescription":
+                    dishes = f"{item_name}: {result}"
+                elif intent == "RetrieveDishAllergicInfo":
+                    dishes = f"{item_name}: {result}"
+                elif intent == "RetrieveDishPrice":
+                    dishes = f"The price of {item_name} is ${result}."
+                
+                # Get recommendations based on the item
+                recommendations = recommend_dishes_for_pairing(item_name)
+                if recommendations:
+                    rec_names = ', '.join([rec['itemName'] for rec in recommendations])
+                    dishes += f"\nYou may also like: {rec_names}."
+            else:
+                dishes = "Dish not found."
+        else:
+            items = intent_functions[intent]()
+            dishes = ', '.join([item['itemName'] for item in items]) if items else "No dishes found."
 
-    return rag_output, intent_name
+    # Replace placeholders in the response
+    response = response_template.replace("{dishes}", dishes)
+    response = response.replace("{dish_name}", dish_name if dish_name else "this dish")
+    response = response.replace("{recommended_dishes}", recommended_dishes)
 
-# Streamlit app interface
+    return response
+
+
+# Streamlit interface with session history and submit button
 st.title("Restaurant Chatbot")
-st.subheader("Ask me about our menu!")
 
-# Initialize chat history
-if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []
+# Initialize session state if not already
+if "history" not in st.session_state:
+    st.session_state.history = []
 
-# Input box for user query
-user_input = st.text_input("You:", "")
+# Input field for user query
+user_input = st.text_input("Ask me about our menu:")
 
-# Send button
-if st.button("Send"):
+# Submit button to trigger intent prediction and response generation
+if st.button("Submit"):
     if user_input:
-        bot_response, intent_name = response(user_input)
-        # Append user input and bot response to chat history
-        st.session_state.chat_history.append({"user": user_input, "bot": bot_response})
+        intent = predict_intent(user_input)
+        response = rag_operation(intent, user_input)
+        st.session_state.history.append({"input": user_input, "response": response})  # Add new input/response to history
 
-# Display chat history
-for chat in st.session_state.chat_history:
-    st.write(f"You: {chat['user']}")
-    st.write(f"Bot: {chat['bot']}")
+# Display conversation history, newest at the top
+if st.session_state.history:
+    for chat in reversed(st.session_state.history):
+        st.write(f"**You:** {chat['input']}")
+        st.write(f"**Bot:** {chat['response']}")
