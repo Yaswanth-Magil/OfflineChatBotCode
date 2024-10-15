@@ -188,7 +188,7 @@ def get_fish_free_dishes():
         if len(fish_free_dishes) >= 5:
             break
     
-    return fish_free_dishes
+    return fish_free_dishes[:5]
 
 
 
