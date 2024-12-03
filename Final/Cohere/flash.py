@@ -1,4 +1,3 @@
-#API: AIzaSyDikCFTjz3PjfxcHueRKAfrMY7y2Ft6tJM
 #Model: gemini-1.5-flash
 
 import json
@@ -10,7 +9,7 @@ import numpy as np
 import google.generativeai as genai
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyDikCFTjz3PjfxcHueRKAfrMY7y2Ft6tJM")
+genai.configure(api_key=" ") #Paste your API key
 
 # Initializing the embedding model
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
